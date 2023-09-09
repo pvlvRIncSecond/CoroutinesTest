@@ -25,7 +25,7 @@ namespace CodeBase.CoroutinesStuff
 
         private void Awake()
         {
-            foreach (Image indicator in _indicatorsImageHolder.Indicators)
+            foreach (Indicator indicator in _indicatorsImageHolder.Indicators)
                 _coroutines.Add(new CoroutineIndicator(indicator, _config));
         }
 

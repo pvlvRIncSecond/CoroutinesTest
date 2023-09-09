@@ -16,20 +16,30 @@ namespace CodeBase.CoroutinesStuff
             }
         }
 
+        public float CurrentTime
+        {
+            get { return _currentTime; }
+            set
+            {
+                _currentTime = value;
+                ChangeText(value);
+            }
+        }
 
         public Coroutine Coroutine;
         public float WaitTime;
-        public float CurrentTime;
 
         private readonly SpriteConfig _config;
-        private CoroutineState _state;
-        private Image _image;
 
-        public CoroutineIndicator(Image indicatorImage, SpriteConfig config)
+        private Indicator _indicator;
+        private CoroutineState _state;
+        private float _currentTime;
+
+        public CoroutineIndicator(Indicator indicator, SpriteConfig config)
         {
             _config = config;
-            _image = indicatorImage;
-        
+            _indicator = indicator;
+
             State = CoroutineState.Stoped;
         }
 
@@ -38,17 +48,23 @@ namespace CodeBase.CoroutinesStuff
             switch (value)
             {
                 case CoroutineState.Active:
-                    _image.sprite = _config.Active;
+                    _indicator.Image.sprite = _config.Active;
+                    _indicator.TmpText.enabled = true;
                     break;
-            
+
                 case CoroutineState.Paused:
-                    _image.sprite = _config.Paused;
+                    _indicator.Image.sprite = _config.Paused;
+                    _indicator.TmpText.enabled = false;
                     break;
-            
+
                 case CoroutineState.Stoped:
-                    _image.sprite = _config.Stoped;
+                    _indicator.Image.sprite = _config.Stoped;
+                    _indicator.TmpText.enabled = false;
                     break;
             }
         }
+
+        private void ChangeText(float value) => 
+            _indicator.TmpText.text = $"{(int)value}/{WaitTime}";
     }
 }
